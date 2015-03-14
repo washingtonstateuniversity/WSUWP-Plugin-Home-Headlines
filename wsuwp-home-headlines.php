@@ -133,7 +133,11 @@ class WSU_Home_Headlines {
 	 * @return string HTML content to display.
 	 */
 	public function display_home_headline( $atts ) {
-		$atts = shortcode_atts( array( 'id' => 0, 'headline' => '', 'subtitle' => '', 'background' => '', 'palette' => '', 'link' => 'page', 'cta' => '' ), $atts );
+		$atts = shortcode_atts( array( 'id' => 0, 'site_id' => 0, 'headline' => '', 'subtitle' => '', 'background' => '', 'palette' => '', 'link' => 'page', 'cta' => '' ), $atts );
+
+		if ( isset( $atts['site_id'] ) && 0 !== absint( $atts['site_id'] ) ) {
+			switch_to_blog( $atts['site_id'] );
+		}
 
 		if ( ! isset( $atts['id'] ) || empty( absint( $atts['id'] ) ) ) {
 			$post = false;
@@ -193,6 +197,10 @@ class WSU_Home_Headlines {
 			$call_to_action = '<div class="home-cta">' . sanitize_text_field( $atts['cta'] ) . '</div>';
 		} else {
 			$call_to_action = '';
+		}
+
+		if ( ms_is_switched() ) {
+			restore_current_blog();
 		}
 
 		$content = '';
