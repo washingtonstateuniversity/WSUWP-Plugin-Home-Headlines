@@ -141,7 +141,9 @@ class WSU_Home_Headlines {
 			'background' => '',
 			'palette' => '',
 			'link' => 'page',
-			'cta' => ''
+			'cta' => '',
+			'wrapper' => 'div',
+			'wrapper_class' => '',
 		);
 		$atts = shortcode_atts( $default_atts, $atts );
 
@@ -215,15 +217,19 @@ class WSU_Home_Headlines {
 
 		$content = '';
 
-		if ( $page_url ) {
-			$content = '<a class="home-link-wrap wsu-home-palette-text-' . $palette . '" href="' . esc_url( $page_url ) . '">';
+		// Handle wrapper container and class.
+		if ( 'a' === $atts['wrapper'] && $page_url ) {
+			$content = '<a class="home-link-wrap wsu-home-palette-text-' . $palette . ' ' . $atts['wrapper_class'] . '" href="' . esc_url( $page_url ) . '">';
+			$close_wrapper = '</a>';
+		} elseif ( ! empty( $atts['wrapper'] ) && in_array( $atts['wrapper'], array( 'div', 'span' ) ) ) {
+			$content = '<' . $atts['wrapper'] . ' class="wsu-home-headline-wrapper ' .  $atts['wrapper_class'] . '">';
+			$close_wrapper = '</' . $atts['wrapper'] . '>';
+		} else {
+			$close_wrapper = '';
 		}
 
 		$content .= '<div ' . $style . ' class="home-headline ' . $class . '"><div><h2>' . strip_tags( $headline, '<br><span><em><strong>' ) . '</h2><div class="home-subtitle">' . strip_tags( $subtitle, '<br><span><em><strong>' ) .  '</div>' . $call_to_action . '</div></div>';
-
-		if ( $page_url ) {
-			$content .= '</a>';
-		}
+		$content .= $close_wrapper;
 
 		return $content;
 	}
