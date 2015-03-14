@@ -211,14 +211,15 @@ class WSU_Home_Headlines {
 			$meta_date = '';
 		}
 
+		if ( $page_url ) {
+			$anchor = '<a href="' . esc_url( $page_url ) . '">';
+			$close_anchor = '</a>';
+		} else {
+			$anchor = '';
+			$close_anchor = '';
+		}
+
 		if ( ! empty( $atts['cta'] ) ) {
-			if ( $page_url ) {
-				$anchor = '<a href="' . esc_url( $page_url ) . '">';
-				$close_anchor = '</a>';
-			} else {
-				$anchor = '';
-				$close_anchor = '';
-			}
 			$call_to_action = '<div class="home-cta">' . $anchor . sanitize_text_field( $atts['cta'] ) . $close_anchor . '</div>';
 		} else {
 			$call_to_action = '';
@@ -250,7 +251,7 @@ class WSU_Home_Headlines {
 				</div>
 			</div>
 			<div class="home-headline-item-meta">
-				<div class="home-headline-item-title">' . strip_tags( $headline ) .'</div>
+				<div class="home-headline-item-title">' . $anchor . strip_tags( $headline ) . $close_anchor . '</div>
 				<div class="home-headline-item-date">' . $meta_date . '</div>
 			</div>';
 		$content .= $close_wrapper;
