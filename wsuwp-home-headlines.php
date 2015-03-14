@@ -133,7 +133,19 @@ class WSU_Home_Headlines {
 	 * @return string HTML content to display.
 	 */
 	public function display_home_headline( $atts ) {
-		$atts = shortcode_atts( array( 'id' => 0, 'site_id' => 0, 'headline' => '', 'subtitle' => '', 'background' => '', 'palette' => '', 'link' => 'page', 'cta' => '' ), $atts );
+		$default_atts = array(
+			'id' => 0,
+			'site_id' => 0,
+			'headline' => '',
+			'subtitle' => '',
+			'background' => '',
+			'palette' => '',
+			'link' => 'page',
+			'cta' => '',
+			'wrapper' => 'div',
+			'wrapper_class' => '',
+		);
+		$atts = shortcode_atts( $default_atts, $atts );
 
 		if ( isset( $atts['site_id'] ) && 0 !== absint( $atts['site_id'] ) ) {
 			switch_to_blog( $atts['site_id'] );
@@ -193,8 +205,21 @@ class WSU_Home_Headlines {
 			$page_url = $atts['link'];
 		}
 
+		if ( $post ) {
+			$meta_date = get_the_date( 'M d', $post->ID );
+		} else {
+			$meta_date = '';
+		}
+
 		if ( ! empty( $atts['cta'] ) ) {
-			$call_to_action = '<div class="home-cta">' . sanitize_text_field( $atts['cta'] ) . '</div>';
+			if ( $page_url ) {
+				$anchor = '<a href="' . esc_url( $page_url ) . '">';
+				$close_anchor = '</a>';
+			} else {
+				$anchor = '';
+				$close_anchor = '';
+			}
+			$call_to_action = '<div class="home-cta">' . $anchor . sanitize_text_field( $atts['cta'] ) . $close_anchor . '</div>';
 		} else {
 			$call_to_action = '';
 		}
@@ -205,15 +230,30 @@ class WSU_Home_Headlines {
 
 		$content = '';
 
-		if ( $page_url ) {
-			$content = '<a class="home-link-wrap wsu-home-palette-text-' . $palette . '" href="' . esc_url( $page_url ) . '">';
+		// Handle wrapper container and class.
+		if ( 'a' === $atts['wrapper'] && $page_url ) {
+			$content = '<a class="home-link-wrap wsu-home-palette-text-' . $palette . ' ' . $atts['wrapper_class'] . '" href="' . esc_url( $page_url ) . '">';
+			$close_wrapper = '</a>';
+		} elseif ( ! empty( $atts['wrapper'] ) && in_array( $atts['wrapper'], array( 'div', 'span' ) ) ) {
+			$content = '<' . $atts['wrapper'] . ' class="wsu-home-headline-wrapper ' .  $atts['wrapper_class'] . '">';
+			$close_wrapper = '</' . $atts['wrapper'] . '>';
+		} else {
+			$close_wrapper = '';
 		}
 
-		$content .= '<div ' . $style . ' class="home-headline ' . $class . '"><div><h2>' . strip_tags( $headline, '<br><span><em><strong>' ) . '</h2><div class="home-subtitle">' . strip_tags( $subtitle, '<br><span><em><strong>' ) .  '</div>' . $call_to_action . '</div></div>';
-
-		if ( $page_url ) {
-			$content .= '</a>';
-		}
+		$content .= '
+			<div ' . $style . ' class="home-headline ' . $class . '">
+				<div>
+					<h2>' . strip_tags( $headline, '<br><span><em><strong>' ) . '</h2>
+					<div class="home-subtitle">' . strip_tags( $subtitle, '<br><span><em><strong>' ) .  '</div>' .
+					$call_to_action . '
+				</div>
+			</div>
+			<div class="home-headline-item-meta">
+				<div class="home-headline-item-title">' . strip_tags( $headline ) .'</div>
+				<div class="home-headline-item-date">' . $meta_date . '</div>
+			</div>';
+		$content .= $close_wrapper;
 
 		return $content;
 	}
