@@ -206,7 +206,14 @@ class WSU_Home_Headlines {
 		}
 
 		if ( ! empty( $atts['cta'] ) ) {
-			$call_to_action = '<div class="home-cta">' . sanitize_text_field( $atts['cta'] ) . '</div>';
+			if ( $page_url ) {
+				$anchor = '<a href="' . esc_url( $page_url ) . '">';
+				$close_anchor = '</a>';
+			} else {
+				$anchor = '';
+				$close_anchor = '';
+			}
+			$call_to_action = '<div class="home-cta">' . $anchor . sanitize_text_field( $atts['cta'] ) . $close_anchor . '</div>';
 		} else {
 			$call_to_action = '';
 		}
