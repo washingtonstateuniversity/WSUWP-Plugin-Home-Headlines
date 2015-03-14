@@ -205,6 +205,12 @@ class WSU_Home_Headlines {
 			$page_url = $atts['link'];
 		}
 
+		if ( $post ) {
+			$meta_date = get_the_date( 'M d', $post->ID );
+		} else {
+			$meta_date = '';
+		}
+
 		if ( ! empty( $atts['cta'] ) ) {
 			if ( $page_url ) {
 				$anchor = '<a href="' . esc_url( $page_url ) . '">';
@@ -242,6 +248,10 @@ class WSU_Home_Headlines {
 					<div class="home-subtitle">' . strip_tags( $subtitle, '<br><span><em><strong>' ) .  '</div>' .
 					$call_to_action . '
 				</div>
+			</div>
+			<div class="home-headline-item-meta">
+				<div class="home-headline-item-title">' . strip_tags( $headline ) .'</div>
+				<div class="home-headline-item-date">' . $meta_date . '</div>
 			</div>';
 		$content .= $close_wrapper;
 
