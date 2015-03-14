@@ -133,7 +133,17 @@ class WSU_Home_Headlines {
 	 * @return string HTML content to display.
 	 */
 	public function display_home_headline( $atts ) {
-		$atts = shortcode_atts( array( 'id' => 0, 'site_id' => 0, 'headline' => '', 'subtitle' => '', 'background' => '', 'palette' => '', 'link' => 'page', 'cta' => '' ), $atts );
+		$default_atts = array(
+			'id' => 0,
+			'site_id' => 0,
+			'headline' => '',
+			'subtitle' => '',
+			'background' => '',
+			'palette' => '',
+			'link' => 'page',
+			'cta' => ''
+		);
+		$atts = shortcode_atts( $default_atts, $atts );
 
 		if ( isset( $atts['site_id'] ) && 0 !== absint( $atts['site_id'] ) ) {
 			switch_to_blog( $atts['site_id'] );
