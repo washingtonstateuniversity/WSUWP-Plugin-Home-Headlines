@@ -253,7 +253,8 @@ class WSU_Home_Headlines {
 			<div class="home-headline-item-meta">
 				<div class="home-headline-item-title">' . $anchor . strip_tags( $headline ) . $close_anchor . '</div>
 				<div class="home-headline-item-date">' . $meta_date . '</div>
-			</div>';
+			</div>
+			';
 		$content .= $close_wrapper;
 
 		return $content;
