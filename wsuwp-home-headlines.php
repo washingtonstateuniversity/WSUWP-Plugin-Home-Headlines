@@ -232,20 +232,21 @@ class WSU_Home_Headlines {
 		}
 
 		$content = '';
+		$container_id = uniqid();
 
 		// Handle wrapper container and class.
 		if ( 'a' === $atts['wrapper'] && $page_url ) {
-			$content = '<a class="home-link-wrap wsu-home-palette-text-' . $palette . ' ' . $atts['wrapper_class'] . '" href="' . $page_url . '">';
+			$content = '<a id="' . $container_id . '" class="home-link-wrap wsu-home-palette-text-' . $palette . ' ' . $atts['wrapper_class'] . '" href="' . $page_url . '">';
 			$close_wrapper = '</a>';
 		} elseif ( ! empty( $atts['wrapper'] ) && in_array( $atts['wrapper'], array( 'div', 'span' ) ) ) {
-			$content = '<' . $atts['wrapper'] . ' class="wsu-home-headline-wrapper ' .  $atts['wrapper_class'] . '">';
+			$content = '<' . $atts['wrapper'] . ' id="' . $container_id . '" class="wsu-home-headline-wrapper ' .  $atts['wrapper_class'] . '">';
 			$close_wrapper = '</' . $atts['wrapper'] . '>';
 		} else {
 			$close_wrapper = '';
 		}
 
 		$content .= '
-			<div ' . $style . ' class="home-headline ' . $class . '" data-headline="'. esc_attr( strip_tags( $headline ) ) .'" data-anchor="'. $page_url .'" data-date="'. $meta_date .'">
+			<div ' . $style . ' class="home-headline ' . $class . '" data-id="' . $container_id . '" data-headline="'. esc_attr( strip_tags( $headline ) ) .'" data-anchor="'. $page_url .'" data-date="'. $meta_date .'">
 				<div>
 					<h2>' . strip_tags( $headline, '<br><span><em><strong>' ) . '</h2>
 					<div class="home-subtitle">' . strip_tags( $subtitle, '<br><span><em><strong>' ) .  '</div>' .
