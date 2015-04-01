@@ -211,7 +211,7 @@ class WSU_Home_Headlines {
 		} elseif ( '' !== $atts['date'] ) {
 			$meta_date = esc_html( $atts['date'] );
 		} else {
-			$meta_date = '';
+			$meta_date = get_the_date( 'M d', $post->ID );
 		}
 
 		if ( $page_url ) {
