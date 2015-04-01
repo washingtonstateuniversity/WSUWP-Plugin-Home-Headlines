@@ -138,6 +138,7 @@ class WSU_Home_Headlines {
 			'site_id' => 0,
 			'headline' => '',
 			'subtitle' => '',
+			'date' => '',
 			'background' => '',
 			'palette' => '',
 			'link' => 'page',
@@ -205,8 +206,10 @@ class WSU_Home_Headlines {
 			$page_url = $atts['link'];
 		}
 
-		if ( $post ) {
-			$meta_date = get_the_date( 'M d', $post->ID );
+		if ( ! $post && empty( $atts['date'] ) ) {
+			$meta_date = '';
+		} elseif ( '' !== $atts['date'] ) {
+			$meta_date = esc_html( $atts['date'] );
 		} else {
 			$meta_date = '';
 		}
