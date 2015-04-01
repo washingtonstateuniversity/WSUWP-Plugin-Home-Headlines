@@ -251,8 +251,10 @@ class WSU_Home_Headlines {
 		$content .= '
 			<div ' . $style . ' class="home-headline ' . $class . '" data-id="' . $container_id . '" data-headline="'. esc_attr( strip_tags( $headline ) ) .'" data-anchor="'. $page_url .'" data-date="'. $meta_date .'">
 				<div>
-					<h2>' . strip_tags( $headline, '<br><span><em><strong>' ) . '</h2>
-					<div class="home-subtitle">' . strip_tags( $subtitle, '<br><span><em><strong>' ) .  '</div>' .
+					<div class="home-headline-head-wrapper">
+						<h2>' . strip_tags( $headline, '<br><span><em><strong>' ) . '</h2>
+						<div class="home-subtitle">' . strip_tags( $subtitle, '<br><span><em><strong>' ) .  '</div>' .
+					'</div>' .
 					$call_to_action . '
 				</div>
 			</div>
