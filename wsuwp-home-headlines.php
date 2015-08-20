@@ -251,13 +251,11 @@ class WSU_Home_Headlines {
 		$content .= '
 			<div ' . $style . ' class="home-headline ' . $class . '" data-id="' . $container_id . '" data-headline="'. esc_attr( strip_tags( $headline ) ) .'" data-anchor="'. $page_url .'" data-date="'. $meta_date .'">
 				<div>
-					<div class="home-headline-head-wrapper">
-						<h2>' . strip_tags( $headline, '<br><span><em><strong>' ) . '</h2>';
+					<div class="home-headline-head-wrapper">';
 
+		$content .= apply_filters( 'wsu_home_headlines_title', '<h2>' . strip_tags( $headline, '<br><span><em><strong>' ) . '</h2>', $atts, $pre_content );
 		$content .= apply_filters( 'wsu_home_headlines_after_title', '', $atts, $pre_content );
-
-		$content .= '						<div class="home-subtitle">' . strip_tags( $subtitle, '<br><span><em><strong>' ) .  '</div>';
-
+		$content .= apply_filters( 'wsu_home_headlines_sub_title', '<div class="home-subtitle">' . strip_tags( $subtitle, '<br><span><em><strong>' ) .  '</div>', $atts, $pre_content );
 		$content .= apply_filters( 'wsu_home_headlines_after_sub_title', '', $atts, $pre_content );
 
 		$content .= '</div>' .
