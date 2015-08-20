@@ -258,11 +258,11 @@ class WSU_Home_Headlines {
 		$content .= apply_filters( 'wsu_home_headlines_sub_title', '<div class="home-subtitle">' . strip_tags( $subtitle, '<br><span><em><strong>' ) .  '</div>', $atts, $pre_content );
 		$content .= apply_filters( 'wsu_home_headlines_after_sub_title', '', $atts, $pre_content );
 
-		$content .= '</div>' .
-					$call_to_action . '
-				</div>
-			</div>
-			';
+		$content .= '</div>'; // close .home-headline-head-wrapper
+
+		$content .= apply_filters( 'wsu_home_headlines_cta', $call_to_action, $atts, $pre_content );
+
+		$content .= '</div></div>'; // close inner div and .home-headline
 
 		$content .= $close_wrapper;
 
