@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WSUWP Home Headlines
-Version: 0.1.5
+Version: 0.2.0
 Plugin URI: https://web.wsu.edu/
 Description: Really, to be determined. But–pull headlines and information via shortcode.
 Author: washingtonstateuniversity, jeremyfelt
