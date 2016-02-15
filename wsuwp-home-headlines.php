@@ -140,6 +140,7 @@ class WSU_Home_Headlines {
 			'subtitle' => '',
 			'date' => '',
 			'background' => '',
+			'background_position' => '',
 			'palette' => '',
 			'link' => 'page',
 			'cta' => '',
@@ -180,6 +181,24 @@ class WSU_Home_Headlines {
 			$background_image = MultiPostThumbnails::get_post_thumbnail_url( $post->post_type, 'background-image', $post->ID, 'spine-xlarge_size' );
 		} else {
 			$background_image = false;
+		}
+
+		$background_positions = array(
+			'center',
+			'center-top',
+			'right-top',
+			'right-center',
+			'right-bottom',
+			'center-bottom',
+			'left-bottom',
+			'left-center',
+			'left-top',
+		);
+
+		if ( ! empty( $atts['background_position'] ) && in_array( $atts['background_position'], $background_positions ) ) {
+			$background_position_class = 'background-position-' . $atts['background_position'];
+		} else {
+			$background_position_class = '';
 		}
 
 		if ( ! $post && empty( $atts['palette'] ) ) {
@@ -249,7 +268,7 @@ class WSU_Home_Headlines {
 		}
 
 		$content .= '
-			<div ' . $style . ' class="home-headline ' . $class . '" data-id="' . $container_id . '" data-headline="'. esc_attr( strip_tags( $headline ) ) .'" data-anchor="'. $page_url .'" data-date="'. $meta_date .'">
+			<div ' . $style . ' class="home-headline ' . $class . ' ' . $background_position_class . '" data-id="' . $container_id . '" data-headline="'. esc_attr( strip_tags( $headline ) ) .'" data-anchor="'. $page_url .'" data-date="'. $meta_date .'">
 				<div>
 					<div class="home-headline-head-wrapper">';
 
