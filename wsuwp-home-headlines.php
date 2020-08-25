@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WSUWP Home Headlines
-Version: 0.2.1
+Version: 0.3.0
 Plugin URI: https://web.wsu.edu/
 Description: Really, to be determined. But–pull headlines and information via shortcode.
 Author: washingtonstateuniversity, jeremyfelt
@@ -149,6 +149,8 @@ class WSU_Home_Headlines {
 		);
 		$atts = shortcode_atts( $default_atts, $atts );
 
+		$container_id = uniqid();
+
 		if ( isset( $atts['site_id'] ) && 0 !== absint( $atts['site_id'] ) ) {
 			switch_to_blog( $atts['site_id'] );
 		}
@@ -235,7 +237,7 @@ class WSU_Home_Headlines {
 
 		if ( $page_url ) {
 			$page_url = esc_url( $page_url );
-			$anchor = '<a href="' . esc_url( $page_url ) . '">';
+			$anchor = '<a href="' . esc_url( $page_url ) . '" aria-labelledby="' . $container_id . '_title" >';
 			$close_anchor = '</a>';
 		} else {
 			$page_url = '';
@@ -254,7 +256,6 @@ class WSU_Home_Headlines {
 		}
 
 		$content = '';
-		$container_id = uniqid();
 
 		// Handle wrapper container and class.
 		if ( 'a' === $atts['wrapper'] && $page_url ) {
@@ -272,7 +273,7 @@ class WSU_Home_Headlines {
 				<div>
 					<div class="home-headline-head-wrapper">';
 
-		$content .= apply_filters( 'wsu_home_headlines_title', '<h2>' . strip_tags( $headline, '<br><span><em><strong>' ) . '</h2>', $atts, $pre_content );
+		$content .= apply_filters( 'wsu_home_headlines_title', '<h2 id="' . $container_id . '_title">' . strip_tags( $headline, '<br><span><em><strong>' ) . '</h2>', $atts, $pre_content );
 		$content .= apply_filters( 'wsu_home_headlines_after_title', '', $atts, $pre_content );
 		$content .= apply_filters( 'wsu_home_headlines_sub_title', '<div class="home-subtitle">' . strip_tags( $subtitle, '<br><span><em><strong>' ) .  '</div>', $atts, $pre_content );
 		$content .= apply_filters( 'wsu_home_headlines_after_sub_title', '', $atts, $pre_content );
